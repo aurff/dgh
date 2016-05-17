@@ -1,0 +1,66 @@
+Mono path[0] = 'H:/Unity5/Projects/DGH_Prototype/Cooked/dgh_prototype_01_keyboard_Data/Managed'
+Mono path[1] = 'H:/Unity5/Projects/DGH_Prototype/Cooked/dgh_prototype_01_keyboard_Data/Mono'
+Mono config path = 'H:/Unity5/Projects/DGH_Prototype/Cooked/dgh_prototype_01_keyboard_Data/Mono/etc'
+PlayerConnection initialized from H:/Unity5/Projects/DGH_Prototype/Cooked/dgh_prototype_01_keyboard_Data (debug = 0)
+PlayerConnection initialized network socket : 0.0.0.0 55418
+Multi-casting "[IP] 192.168.178.21 [Port] 55418 [Flags] 2 [Guid] 951469938 [EditorId] 2676054854 [Version] 1048832 [Id] WindowsPlayer(nroll-PC) [Debug] 0" to [225.0.0.222:54997]...
+PlayerConnection already initialized - listening to [192.168.178.21:55418]
+Initialize engine version: 5.3.4f1 (fdbb5133b820)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: AMD Radeon R9 200 Series (ID=0x67b1)
+    Vendor:   ATI
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: H:\Unity5\Projects\DGH_Prototype\Cooked\dgh_prototype_01_keyboard_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading H:\Unity5\Projects\DGH_Prototype\Cooked\dgh_prototype_01_keyboard_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: H:\Unity5\Projects\DGH_Prototype\Cooked\dgh_prototype_01_keyboard_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading H:\Unity5\Projects\DGH_Prototype\Cooked\dgh_prototype_01_keyboard_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: H:\Unity5\Projects\DGH_Prototype\Cooked\dgh_prototype_01_keyboard_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading H:\Unity5\Projects\DGH_Prototype\Cooked\dgh_prototype_01_keyboard_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: H:\Unity5\Projects\DGH_Prototype\Cooked\dgh_prototype_01_keyboard_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading H:\Unity5\Projects\DGH_Prototype\Cooked\dgh_prototype_01_keyboard_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.067 seconds
+Platform assembly: H:\Unity5\Projects\DGH_Prototype\Cooked\dgh_prototype_01_keyboard_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: H:\Unity5\Projects\DGH_Prototype\Cooked\dgh_prototype_01_keyboard_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3840x1080 at -1920,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.744678 ms
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 1a94 -> priority: 1 
+yeah
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+UnityEngine.MonoBehaviour:print(Object) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineMonoBehaviourBindings.gen.cs:106)
+LevelScripts:RestartLevel() (at H:\Unity5\Projects\DGH_Prototype\Assets\LevelScripts.cs:33)
+PlayerController:OnTriggerEnter(Collider) (at H:\Unity5\Projects\DGH_Prototype\Assets\PlayerController.cs:245)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineMonoBehaviourBindings.gen.cs Line: 106)
+
+yeah
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+UnityEngine.MonoBehaviour:print(Object) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineMonoBehaviourBindings.gen.cs:106)
+LevelScripts:RestartLevel() (at H:\Unity5\Projects\DGH_Prototype\Assets\LevelScripts.cs:33)
+PlayerController:OnTriggerEnter(Collider) (at H:\Unity5\Projects\DGH_Prototype\Assets\PlayerController.cs:245)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineMonoBehaviourBindings.gen.cs Line: 106)
+
+yeah
+UnityEngine.DebugLogHandler:Internal_Log(LogType, String, Object)
+UnityEngine.DebugLogHandler:LogFormat(LogType, Object, String, Object[])
+UnityEngine.Logger:Log(LogType, Object)
+UnityEngine.Debug:Log(Object)
+UnityEngine.MonoBehaviour:print(Object) (at C:\buildslave\unity\build\artifacts\generated\common\runtime\UnityEngineMonoBehaviourBindings.gen.cs:106)
+LevelScripts:RestartLevel() (at H:\Unity5\Projects\DGH_Prototype\Assets\LevelScripts.cs:33)
+PlayerController:OnTriggerEnter(Collider) (at H:\Unity5\Projects\DGH_Prototype\Assets\PlayerController.cs:245)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineMonoBehaviourBindings.gen.cs Line: 106)
+
