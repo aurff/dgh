@@ -83,11 +83,15 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButton(shieldButton)) {
 			if (grounded && !isPerformingAnAttack) {
 				ShieldEnable();
+				//audio
+				PlaySound(3);
 			}
 
 			//Out of Shield Attack
 			else if (Input.GetButtonDown(attackButton)) {
 				OutOfShieldAttack();
+				//audio
+				PlaySound(4);
 			}
 		}
 
@@ -100,6 +104,8 @@ public class PlayerController : MonoBehaviour {
 			aerialHurtBox.active = true;
 			isPerformingAnAttack = true;
 			aerialTimer = 0;
+			//audio
+			PlaySound(2);
 		}
 
 		if (Input.GetButtonDown(attackButton) && grounded && !isPerformingAnAttack) {
@@ -107,6 +113,8 @@ public class PlayerController : MonoBehaviour {
 			dashHurtBox.active = true;
 			isDashing = true;
 			isPerformingAnAttack = true;
+			//audio
+			PlaySound(5);
 		}
 
 		if (dashTimer >= 0.5) {
