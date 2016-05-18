@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour {
 	public string faceDirection = "right";
 	private float tempH;
 	private bool jumpVelocity = false;
+	private bool levelboundRight = false;
+	private bool levelboundLeft = false;
 
 	private Vector3 tempVelocity;
 
@@ -59,7 +61,7 @@ public class PlayerController : MonoBehaviour {
 		
 
 		//Change here also in case of DoubleJumps needs to be enabled
-		if (Input.GetButton(jumpButton) && grounded ) {
+		if (Input.GetButton(jumpButton) && grounded && !isPerformingAnAttack) {
 			jump = true;
 		}
 
@@ -185,7 +187,27 @@ public class PlayerController : MonoBehaviour {
 
 		//Movement in the air, maybee this will fix strange behaviour
 		if (h * rigb.velocity.x < (maxSpeed + 0.1f)  && (jump || !grounded) && canMove) {
-			rigb.AddForce(Vector2.right * tempH * moveForce);
+			if (levelboundLeft) {
+				if (tempH <= 0) {
+					tempH = 0;
+					rigb.AddForce(Vector2.right * tempH * moveForce);
+				}
+				else {
+					rigb.AddForce(Vector2.right * tempH * moveForce);
+				}
+			}
+			if (levelboundRight) {
+				if (tempH >= 0) {
+					tempH = 0;
+					rigb.AddForce(Vector2.right * tempH * moveForce);
+				}
+				else {
+					rigb.AddForce(Vector2.right * tempH * moveForce);
+				}
+			}
+			else {
+				rigb.AddForce(Vector2.right * tempH * moveForce);
+			}
 		}
 
 		//Cutting the velocity over maxSpeed
@@ -206,7 +228,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Jumping
-		if (jump && canMove) {
+		if (jump && canMove && !isPerformingAnAttack) {
 			if (h == 0) {
 				jumpVelocity = false;
 			}
@@ -257,6 +279,13 @@ public class PlayerController : MonoBehaviour {
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")) {
 			grounded = true;
 		}
+
+		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundRight")) {
+			levelboundRight = true;
+		}
+		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundLeft")) {
+			levelboundLeft = true;
+		}
 	}
 
 	void OnCollisionExit(Collision collision) {
@@ -264,6 +293,14 @@ public class PlayerController : MonoBehaviour {
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")) {
 			grounded = false;
 			//jumpVelocity = false;
+		}
+
+		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundLeft")) {
+			levelboundLeft = false;
+		}
+
+		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundRight")) {
+			levelboundRight = false;
 		}
 	}
 
