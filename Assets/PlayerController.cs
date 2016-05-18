@@ -42,9 +42,6 @@ public class PlayerController : MonoBehaviour {
 	private float tempH;
 	private bool jumpVelocity = false;
 
-	private bool levelboundRight = false;
-	private bool levelboundLeft = false;
-
 	private Vector3 tempVelocity;
 
 	//audio
@@ -65,7 +62,7 @@ public class PlayerController : MonoBehaviour {
 		
 
 		//Change here also in case of DoubleJumps needs to be enabled
-		if (Input.GetButton(jumpButton) && grounded && !isPerformingAnAttack) {
+		if (Input.GetButton(jumpButton) && grounded ) {
 			jump = true;
 		}
 
@@ -118,10 +115,6 @@ public class PlayerController : MonoBehaviour {
 			isPerformingAnAttack = true;
 			//audio
 			PlaySound(5);
-		}
-
-		if (dashTimer >= 0.25f) {
-			dashHurtBox.SetActive(false);
 		}
 
 		if (dashTimer >= 0.5) {
@@ -199,27 +192,7 @@ public class PlayerController : MonoBehaviour {
 
 		//Movement in the air, maybee this will fix strange behaviour
 		if (h * rigb.velocity.x < (maxSpeed + 0.1f)  && (jump || !grounded) && canMove) {
-			if (levelboundLeft) {
-				if (tempH <= 0) {
-					tempH = 0;
-					rigb.AddForce(Vector2.right * tempH * moveForce);
-				}
-				else {
-					rigb.AddForce(Vector2.right * tempH * moveForce);
-				}
-			}
-			if (levelboundRight) {
-				if (tempH >= 0) {
-					tempH = 0;
-					rigb.AddForce(Vector2.right * tempH * moveForce);
-				}
-				else {
-					rigb.AddForce(Vector2.right * tempH * moveForce);
-				}
-			}
-			else {
-				rigb.AddForce(Vector2.right * tempH * moveForce);
-			}
+			rigb.AddForce(Vector2.right * tempH * moveForce);
 		}
 
 		//Cutting the velocity over maxSpeed
@@ -240,7 +213,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Jumping
-		if (jump && canMove && !isPerformingAnAttack) {
+		if (jump && canMove) {
 			if (h == 0) {
 				jumpVelocity = false;
 			}
@@ -294,13 +267,6 @@ public class PlayerController : MonoBehaviour {
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")) {
 			grounded = true;
 		}
-			
-		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundRight")) {
-			levelboundRight = true;
-		}
-		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundLeft")) {
-			levelboundLeft = true;
-		}
 	}
 
 	void OnCollisionExit(Collision collision) {
@@ -308,13 +274,6 @@ public class PlayerController : MonoBehaviour {
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")) {
 			grounded = false;
 			//jumpVelocity = false;
-		}
-		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundLeft")) {
-			levelboundLeft = false;
-		}
-
-		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundRight")) {
-			levelboundRight = false;
 		}
 	}
 
