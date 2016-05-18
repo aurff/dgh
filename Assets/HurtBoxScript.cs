@@ -49,14 +49,15 @@ public class HurtBoxScript : MonoBehaviour {
 				Vector3 actualForce = parent.GetComponent<PlayerController>().rigb.angularVelocity;
 				if (parent.GetComponent<PlayerController>().faceDirection == "left") {
 					parent.GetComponent<PlayerController>().rigb.AddForce(-actualForce);
-					parent.GetComponent<PlayerController>().rigb.AddForce(200,attackVsShieldForce,0);
+					//parent.GetComponent<PlayerController>().rigb.AddForce(200,attackVsShieldForce,0);
+					parent.GetComponent<PlayerController>().rigb.velocity = new Vector3(0, 5, 0);
 					parent.GetComponent<PlayerController>().aerialHurtBox.active = false;
 					parent.GetComponent<PlayerController>().AttackVsAttackMoveTimer();
-
 				}
 				else {
 					parent.GetComponent<PlayerController>().rigb.AddForce(-actualForce);
-					parent.GetComponent<PlayerController>().rigb.AddForce(-200,attackVsShieldForce,0);
+					//parent.GetComponent<PlayerController>().rigb.AddForce(-200,attackVsShieldForce,0);
+					parent.GetComponent<PlayerController>().rigb.velocity = new Vector3(0, 5, 0);
 					parent.GetComponent<PlayerController>().aerialHurtBox.active = false;
 					parent.GetComponent<PlayerController>().AttackVsAttackMoveTimer();
 				}
@@ -65,13 +66,15 @@ public class HurtBoxScript : MonoBehaviour {
 				Vector3 actualForce2 = parent.GetComponent<PlayerController>().rigb.angularVelocity;
 				if (parent.GetComponent<PlayerController>().faceDirection == "left") {
 					parent.GetComponent<PlayerController>().rigb.AddForce(-actualForce2);
-					parent.GetComponent<PlayerController>().rigb.AddForce(200,attackVsShieldForce,0);
+					//parent.GetComponent<PlayerController>().rigb.AddForce(200,attackVsShieldForce,0);
+					parent.GetComponent<PlayerController>().rigb.velocity = new Vector3(0, 5, 0);
 					parent.GetComponent<PlayerController>().aerialHurtBox.active = false;
 					parent.GetComponent<PlayerController>().AttackVsAttackMoveTimer();
 				}
 				else {
 					parent.GetComponent<PlayerController>().rigb.AddForce(-actualForce2);
-					parent.GetComponent<PlayerController>().rigb.AddForce(-200,attackVsShieldForce,0);
+					//parent.GetComponent<PlayerController>().rigb.AddForce(-200,attackVsShieldForce,0);
+					parent.GetComponent<PlayerController>().rigb.velocity = new Vector3(0, 5, 0);
 					parent.GetComponent<PlayerController>().aerialHurtBox.active = false;
 					parent.GetComponent<PlayerController>().AttackVsAttackMoveTimer();
 				}

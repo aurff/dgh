@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour {
 	public bool isDashing = false;
 	private bool isAerialing = false;
 	private bool outOfShieldAttackActive = false;
-	private bool canMove = true;
+	public bool canMove = true;
 	private bool running = false;
 	public bool grounded = false;
 	private bool jump = false;
@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour {
 
 	// FixedUpdate is called once per frame for ribidbody stuff
 	void FixedUpdate() {
-
+		print(grounded);
 		float h = 0;
 
 		if (!isDashing) {
@@ -180,8 +180,8 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Movement in the air, maybee this will fix strange behaviour
-		if (h * rigb.velocity.x < maxSpeed && grounded == false) {
-			//print(rigb.velocity);
+		if (h * rigb.velocity.x < (maxSpeed + 0.1f)  && (jump || !grounded) && canMove) {
+			rigb.AddForce(Vector2.right * tempH * moveForce);
 		}
 
 		//Cutting the velocity over maxSpeed
@@ -210,8 +210,7 @@ public class PlayerController : MonoBehaviour {
 				jumpVelocity = true;
 			}
 
-			rigb.AddForce(new Vector2(0, 6.5f), ForceMode.VelocityChange);
-
+			rigb.AddForce(new Vector2(0, 7.5f), ForceMode.VelocityChange);
 
 			//rigb.AddForce(new Vector3(0, 5, 0), ForceMode.VelocityChange);
 			//rigb.AddForce(10.0f * rigb.transform.forward + new Vector3(0,4,0), ForceMode.VelocityChange);
