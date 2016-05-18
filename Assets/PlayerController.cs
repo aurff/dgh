@@ -41,10 +41,11 @@ public class PlayerController : MonoBehaviour {
 	public string faceDirection = "right";
 	private float tempH;
 	private bool jumpVelocity = false;
-	private bool levelboundRight = false;
-	private bool levelboundLeft = false;
 
 	private Vector3 tempVelocity;
+
+	//audio
+	public AudioClip[] audioClip;
 
 	// Use this for initialization
 	void Start () {
@@ -61,7 +62,7 @@ public class PlayerController : MonoBehaviour {
 		
 
 		//Change here also in case of DoubleJumps needs to be enabled
-		if (Input.GetButton(jumpButton) && grounded && !isPerformingAnAttack) {
+		if (Input.GetButton(jumpButton) && grounded ) {
 			jump = true;
 		}
 
@@ -106,10 +107,6 @@ public class PlayerController : MonoBehaviour {
 			dashHurtBox.active = true;
 			isDashing = true;
 			isPerformingAnAttack = true;
-		}
-
-		if (dashTimer >= 0.25f) {
-			dashHurtBox.SetActive(false);
 		}
 
 		if (dashTimer >= 0.5) {
@@ -187,27 +184,7 @@ public class PlayerController : MonoBehaviour {
 
 		//Movement in the air, maybee this will fix strange behaviour
 		if (h * rigb.velocity.x < (maxSpeed + 0.1f)  && (jump || !grounded) && canMove) {
-			if (levelboundLeft) {
-				if (tempH <= 0) {
-					tempH = 0;
-					rigb.AddForce(Vector2.right * tempH * moveForce);
-				}
-				else {
-					rigb.AddForce(Vector2.right * tempH * moveForce);
-				}
-			}
-			if (levelboundRight) {
-				if (tempH >= 0) {
-					tempH = 0;
-					rigb.AddForce(Vector2.right * tempH * moveForce);
-				}
-				else {
-					rigb.AddForce(Vector2.right * tempH * moveForce);
-				}
-			}
-			else {
-				rigb.AddForce(Vector2.right * tempH * moveForce);
-			}
+			rigb.AddForce(Vector2.right * tempH * moveForce);
 		}
 
 		//Cutting the velocity over maxSpeed
@@ -228,7 +205,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Jumping
-		if (jump && canMove && !isPerformingAnAttack) {
+		if (jump && canMove) {
 			if (h == 0) {
 				jumpVelocity = false;
 			}
@@ -243,6 +220,9 @@ public class PlayerController : MonoBehaviour {
 
 			//Right now no double jumps allowed
 			jump = false;
+
+			//audio
+			PlaySound(1);
 		}
 
 		if (jumpVelocity == true) {
@@ -279,13 +259,6 @@ public class PlayerController : MonoBehaviour {
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")) {
 			grounded = true;
 		}
-
-		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundRight")) {
-			levelboundRight = true;
-		}
-		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundLeft")) {
-			levelboundLeft = true;
-		}
 	}
 
 	void OnCollisionExit(Collision collision) {
@@ -293,14 +266,6 @@ public class PlayerController : MonoBehaviour {
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")) {
 			grounded = false;
 			//jumpVelocity = false;
-		}
-
-		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundLeft")) {
-			levelboundLeft = false;
-		}
-
-		if (collision.gameObject.layer == LayerMask.NameToLayer("LevelboundRight")) {
-			levelboundRight = false;
 		}
 	}
 
@@ -314,6 +279,8 @@ public class PlayerController : MonoBehaviour {
 				other.gameObject.active = false;
 				playerWonText.GetComponent<TextMesh>().text = playerName + " wins";
 				playerWonText.GetComponent<LevelScripts>().RestartLevel();
+				//audio
+				PlaySound(6);
 			}
 		}
 	}
@@ -349,4 +316,12 @@ public class PlayerController : MonoBehaviour {
 		outOfShieldAttackActive = true;
 		outOfShieldAttackTimer = 0;
 	}
+
+	//audio
+	void PlaySound (int clip) {
+		GetComponent<AudioSource>().clip = audioClip [clip];
+		GetComponent<AudioSource>().Play ();
+	}
 }
+
+	

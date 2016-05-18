@@ -38,6 +38,9 @@ public class Player2Controller : MonoBehaviour {
 	private bool godMode = false;
 	private bool canTurn = true;
 
+	//audio
+	public AudioClip[] audioClip2;
+
 	// Use this for initialization
 	void Start () {
 		rigb = GetComponent<Rigidbody>();
@@ -226,6 +229,9 @@ public class Player2Controller : MonoBehaviour {
 
 			//Right now no double jumps allowed
 			jump = false;
+
+			//audio
+			PlaySound(1);
 		}
 
 		//For later Dashdancing
@@ -265,6 +271,8 @@ public class Player2Controller : MonoBehaviour {
 				other.gameObject.active = false;
 				playerWonText.GetComponent<TextMesh>().text = "Player 2 Won";
 				playerWonText.GetComponent<LevelScripts>().RestartLevel();
+				//audio
+				PlaySound(6);
 			}
 		}
 	}
@@ -288,5 +296,11 @@ public class Player2Controller : MonoBehaviour {
 
 	public void GodModeDisable() {
 		godMode = false;
+	}
+
+	//audio
+	void PlaySound (int clip) {
+		GetComponent<AudioSource>().clip = audioClip2 [clip];
+		GetComponent<AudioSource>().Play ();
 	}
 }
