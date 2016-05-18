@@ -106,6 +106,10 @@ public class PlayerController : MonoBehaviour {
 			isPerformingAnAttack = true;
 		}
 
+		if (dashTimer >= 0.25f) {
+			dashHurtBox.SetActive(false);
+		}
+
 		if (dashTimer >= 0.5) {
 			canMove = false;
 		}
