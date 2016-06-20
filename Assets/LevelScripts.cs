@@ -40,8 +40,8 @@ public class LevelScripts : MonoBehaviour {
 		player1.active = true;
 		player2.active = true;
 		player1.transform.position = new Vector3(-7, -0.5f, 0);
-		player1.transform.rotation = Quaternion.Euler(0, 0, 0);
+		player1.transform.rotation = Quaternion.Euler(0, 90, 0);
 		player2.transform.position = new Vector3(7, -0.5f, 0);
-		player2.transform.rotation = Quaternion.Euler(0, 180, 0);
+		player2.transform.rotation = Quaternion.Euler(0, 270, 0);
 	}
 }

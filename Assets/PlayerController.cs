@@ -3,299 +3,196 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+	public string playerName;
+
 	public float moveForce = 700.0f;
 	public float maxSpeed = 5.0f;
 	public float jumpForce = 350.0f;
+	public float movementTimeInOneDirectionTreshhold = 0.2f;
+	public float turnDelay = 0.1f;
+	private float turnDelayActive = 0.0f;
 
-	public Rigidbody rigb;
-	private GameObject playerWonText;
-
-	public float timeToRunning = 0.5f;
-	private float timePassed;
-	private float dashTimer = 0;
-	public float groundAttackTimer = 0.5f;
-	private float aerialTimer;
-	private float outOfShieldAttackTimer;
-	private float moveTimer = 0;
+	private float h;
+	private float hLastFrame = 0.0f;
+	private bool canMove = true;
+	private bool attacking = false;
 
 	public GameObject shield;
 	public GameObject dashHurtBox;
 	public GameObject aerialHurtBox;
-	public GameObject outOfShieldAttack;
+	public GameObject outOfShieldAttackHurtBox;
 
+	private Movement movementType;
+	private Attack attackType;
+	private GameObject activeHurtBox;
+
+	//Button Belegung
 	public string horizontalAxis;
-	public string shieldButton;
 	public string jumpButton;
 	public string attackButton;
+	public string shieldButton;
 
-	public string playerName;
+	//Unschön, dass diese Public sind
+	public string faceDirection;
+	public bool grounded;
 
-	public bool isDashing = false;
-	private bool isAerialing = false;
-	private bool outOfShieldAttackActive = false;
-	public bool canMove = true;
-	private bool running = false;
-	public bool grounded = false;
-	private bool jump = false;
-	private bool isPerformingAnAttack = false;
-	public string faceDirection = "right";
-	private float tempH;
-	private bool jumpVelocity = false;
+	public Animator anim;
 
-	private Vector3 tempVelocity;
+	public Rigidbody rigb;
 
 	//audio
 	public AudioClip[] audioClip;
 
+	private float movementTimeInOneDirection = 0.0f;
+
 	// Use this for initialization
 	void Start () {
-		rigb = GetComponent<Rigidbody>();
+		SetMovementType(new Movement_NormalBehaviour());
 		shield.SetActive(false);
 		dashHurtBox.SetActive(false);
-		aerialHurtBox.SetActive(false);
-		outOfShieldAttack.SetActive(false);
-		playerWonText = GameObject.Find("PlayerWonText");
+		outOfShieldAttackHurtBox.SetActive(false);
 	}
-
+	
 	// Update is called once per frame
 	void Update () {
 
+		h = Input.GetAxisRaw(horizontalAxis);
 
-		//Change here also in case of DoubleJumps needs to be enabled
-		if (Input.GetButton(jumpButton) && grounded ) {
-			jump = true;
+		//Movement Deklarieren 
+		if (Input.GetButtonDown(jumpButton) && grounded && canMove) {
+			SetMovementType(new Movement_Jump());
+		}
+		else if (!canMove) {
+			SetMovementType(new Movement_CantMove());
+		}
+		else {
+			SetMovementType(new Movement_NormalBehaviour());
 		}
 
-		if (Input.GetButtonUp(jumpButton)) {
-			jump = false;
+		//print(movementType); //Debug
+
+		if (h == hLastFrame && h != 0) {
+			movementTimeInOneDirection += Time.deltaTime;
+		}
+		else if (h != hLastFrame && movementTimeInOneDirection >= movementTimeInOneDirectionTreshhold && turnDelayActive <= 0) {
+			turnDelayActive = turnDelay;
+		}
+		else {
+			movementTimeInOneDirection = 0;
 		}
 
-		//Die ganzen if Abfragen sind unschön, aber okay für Prototyp
-		if (Input.GetAxis(horizontalAxis) > 0 && canMove && grounded && !isDashing) {
-			gameObject.transform.eulerAngles = new Vector3(0,0,0);
-			faceDirection = "right";
-		}
-		else if (Input.GetAxis(horizontalAxis) < 0 && canMove && grounded && !isDashing) {
-			gameObject.transform.eulerAngles = new Vector3(0,180,0);
-			faceDirection = "left";
+		if (turnDelayActive >= 0) {
+			turnDelayActive -= Time.deltaTime;
+			h = hLastFrame;
 		}
 
-		if (Input.GetButton(shieldButton)) {
-			if (grounded && !isPerformingAnAttack) {
-				ShieldEnable();
+		//Attacken deklaration
+		if (Input.GetButtonDown(attackButton)) {
+			if (grounded) {
+				SetAttackType(new Attack_Dash(), dashHurtBox);
+			}
+			else if (shield.activeSelf) {
+				SetAttackType(new Attack_OutOfShieldAttack(), outOfShieldAttackHurtBox);
+			}
+			else {
+				SetAttackType(new Attack_Aerial(), aerialHurtBox);
+			}
+			attackType.Attack(rigb, anim, activeHurtBox);
+		}
+			
+		//Enable/Disable Shield on Shield-Button
+		if (Input.GetButtonDown(shieldButton)) {
+			if (grounded) {
+				shield.SetActive(true);
+				CantMove();
 				//audio
 				PlaySound(3);
 			}
-
-			//Out of Shield Attack
-			else if (Input.GetButtonDown(attackButton)) {
-				OutOfShieldAttack();
-				//audio
-				PlaySound(4);
-			}
 		}
-
 		if (Input.GetButtonUp(shieldButton)) {
-			ShieldDisable();
-		}
-
-		if (Input.GetButton(attackButton) && !grounded && !isPerformingAnAttack) {
-			isAerialing = true;
-			aerialHurtBox.active = true;
-			isPerformingAnAttack = true;
-			aerialTimer = 0;
-			//audio
-			PlaySound(2);
-		}
-
-		if (Input.GetButtonDown(attackButton) && grounded && !isPerformingAnAttack) {
-			dashTimer = 0;
-			dashHurtBox.active = true;
-			isDashing = true;
-			isPerformingAnAttack = true;
-			//audio
-			PlaySound(5);
-		}
-
-		if (dashTimer >= 0.5) {
-			canMove = false;
-		}
-
-		if (dashTimer >= 0.5 && !Input.GetButton(attackButton)) {
-			dashHurtBox.active = false;
-			canMove = true;
-			isPerformingAnAttack = false;
-		}
-
-		//0.5 seconds disable input for dash attack
-		if (isDashing) {
-			dashTimer += Time.deltaTime;
-
-			//if(dashTimer >= 0.5f && !Input.GetButton(attackButton)) {
-			if(dashTimer >= groundAttackTimer) {
-				isDashing = false;
-				dashHurtBox.active = false;
-				isPerformingAnAttack = false;
-				dashTimer = 0;
-			}
-		}
-
-		//disable aerialing when on the ground again
-		if (isAerialing) {
-			aerialTimer += Time.deltaTime;
-			if (grounded) {
-				isAerialing = false;
-				aerialHurtBox.active = false;
-				isPerformingAnAttack = false;
-			}
-		}
-
-		if (outOfShieldAttackActive == true) {
-			outOfShieldAttackTimer += Time.deltaTime;
-		}
-
-		if ((outOfShieldAttackActive == true && !Input.GetButton(attackButton) && outOfShieldAttackTimer >= 0.5) || (outOfShieldAttackActive == true && outOfShieldAttackTimer >= 0.5)) {
-			outOfShieldAttackActive = false;
-			outOfShieldAttack.active = false;
-		}
-
-		if (moveTimer != 0) {
-			moveTimer += Time.deltaTime;
-			if (moveTimer >= 0.6) {
-				canMove = true;
-				moveTimer = 0.0f;
-			}
+			shield.SetActive(false);
+			CanMove();
 		}
 	}
 
-	// FixedUpdate is called once per frame for ribidbody stuff
 	void FixedUpdate() {
-		print(grounded);
-		float h = 0;
 
-		if (!isDashing) {
-			h = Input.GetAxis(horizontalAxis);
-		}
-		else {
-			h = tempH;
-		}
+		hLastFrame = h;
+		
+		movementType.Move(rigb, anim, h, moveForce, maxSpeed);
 
+		//print (turnDelayActive);
 
-		if (!canMove && !isDashing) {
-			h = 0;
-		}
-
-		//Horizontal movement on the ground
-		if (h * rigb.velocity.x < maxSpeed && grounded && canMove && !isDashing) {
-			rigb.AddForce(Vector2.right * h * moveForce);
-		}
-
-		//Movement in the air, maybee this will fix strange behaviour
-		if (h * rigb.velocity.x < (maxSpeed + 0.1f)  && (jump || !grounded) && canMove) {
-			rigb.AddForce(Vector2.right * tempH * moveForce);
-		}
-
-		//Cutting the velocity over maxSpeed
-		if (Mathf.Abs (rigb.velocity.x) > maxSpeed && canMove) {
-			rigb.velocity = new Vector2(Mathf.Sign (rigb.velocity.x) * maxSpeed, rigb.velocity.y);
-		}
-
-		//Stops the force of the character when no direction is active and on the ground
-		if (h == 0 && grounded) {
-			rigb.velocity = Vector3.zero;
-			rigb.angularVelocity = Vector3.zero;
-			//yield return new WaitForSeconds(0.1f);
-			running = false;
-		}
-
-		if (isDashing) {
-
-		}
-
-		//Jumping
-		if (jump && canMove) {
-			if (h == 0) {
-				jumpVelocity = false;
-			}
-			else {
-				jumpVelocity = true;
+		//Manage Face Direction && Dash Dancing
+		if (h < 0 && rigb.transform.eulerAngles.y != 270) {
+			rigb.transform.eulerAngles = new Vector3(0,270,0);
+			if (anim.GetCurrentAnimatorStateInfo(0).IsName("Dash")) {
+				CantMoveFor(0.25f);
 			}
 
-			rigb.AddForce(new Vector2(0, 7.5f), ForceMode.VelocityChange);
-
-			//rigb.AddForce(new Vector3(0, 5, 0), ForceMode.VelocityChange);
-			//rigb.AddForce(10.0f * rigb.transform.forward + new Vector3(0,4,0), ForceMode.VelocityChange);
-
-			//Right now no double jumps allowed
-			jump = false;
-
-			//audio
-			PlaySound(1);
 		}
-
-		if (jumpVelocity == true) {
-			//tempVelocity = rigb.velocity;
-			if (faceDirection == "right") {
-				//rigb.velocity = new Vector3(7,tempVelocity.y, tempVelocity.z);
-				print(rigb.velocity);
-			}
-			else {
-				//rigb.velocity = new Vector3(-70,tempVelocity.y, tempVelocity.z);
-				print(rigb.velocity);
+		if (h > 0 && rigb.transform.eulerAngles.y != 90) {
+			rigb.transform.eulerAngles = new Vector3(0,90,0);
+			if (anim.GetCurrentAnimatorStateInfo(0).IsName("Dash")) {
+				CantMoveFor(0.25f);
 			}
 		}
-
-
-
-		//For later Dashdancing
-		if (h != 0 && running == false) {
-			timePassed += Time.deltaTime;
-
-			if (timeToRunning <= timePassed) {
-				running = true;
-				timePassed = 0;
-			}
-		}
-
-		tempH = h;
 	}
-
-
 
 	void OnCollisionEnter(Collision collision) {
-		//Collision with ground
-		if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")) {
+
+		switch(collision.gameObject.layer) {
+		case 8: //8 = Ground
 			grounded = true;
+			break;
+		case 12: //12 = LevelboundLeft
+
+			break;
+		case 13: //13 = LevelboundRight
+
+			break;
 		}
 	}
 
 	void OnCollisionExit(Collision collision) {
 		//Not grounded anymore
-		if (collision.gameObject.layer == LayerMask.NameToLayer("Ground")) {
+		switch(collision.gameObject.layer) {
+		case 8: //Ground
 			grounded = false;
-			//jumpVelocity = false;
+			break;
 		}
 	}
 
 	void OnTriggerEnter(Collider other) {
-		//Collision detection with HurtBox from other players
 		if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox")) {
-			if ((other.GetComponent<PlayerController>().shield.activeInHierarchy == true && isAerialing == true && faceDirection != other.GetComponent<PlayerController>().faceDirection) || isDashing == true && other.GetComponent<PlayerController>().isDashing == true) {
-				print("shielded!!!!");
+			if ((other.GetComponent<PlayerController>().shield.activeInHierarchy == true && faceDirection != other.GetComponent<PlayerController>().faceDirection)) {
 			}
 			else {
+				GameObject playerWonText = GameObject.Find("PlayerWonText");
 				other.gameObject.active = false;
 				playerWonText.GetComponent<TextMesh>().text = playerName + " wins";
 				playerWonText.GetComponent<LevelScripts>().RestartLevel();
 				//audio
-				PlaySound(6);
+				//PlaySound(6);
 			}
 		}
 	}
 
-	public void AttackVsAttackMoveTimer() {
-		canMove = false;
-		moveTimer = 0.1f;
+	public void SetMovementType(Movement _movementType) {
+		movementType = _movementType;
+	}
+
+	public void SetAttackType(Attack _attackType, GameObject hurtBox) {
+		attackType = _attackType;
+		activeHurtBox = hurtBox;
+	}
+
+	public Movement GetMovementType() {
+		return movementType;
+	}
+
+	public float GetTurnDelayActive() {
+		return turnDelayActive;
 	}
 
 	public void CantMove() {
@@ -306,27 +203,40 @@ public class PlayerController : MonoBehaviour {
 		canMove = true;
 	}
 
-	public void ShieldEnable() {
-		shield.SetActive(true);
+	public void IsAttacking() {
+		attacking = true;
+	}
+
+	public void NotAttacking() {
+		attacking = false;
+	}
+
+	//public Start for Disable Movement Input for x Seconds
+	public void CantMoveFor(float t) {
+		StartCoroutine(CoCantMoveFor(t));
+	}
+
+	//Coroutine Disable Movement Input for x Seconds
+	IEnumerator CoCantMoveFor(float t) {
 		canMove = false;
-		isPerformingAnAttack = true;
-	}
-
-	public void ShieldDisable() {
-		shield.SetActive(false);
+		yield return new WaitForSeconds(t);
 		canMove = true;
-		isPerformingAnAttack = false;
 	}
 
-	public void OutOfShieldAttack() {
-		shield.SetActive(false);
-		outOfShieldAttack.SetActive(true);
-		outOfShieldAttackActive = true;
-		outOfShieldAttackTimer = 0;
+	//public Start for Enable Hurtbox for x Seconds
+	public void HurtBoxTime(GameObject HurtBox, float t) {
+		StartCoroutine(CoHurtBoxTime(HurtBox, t));
+	}
+
+	//Coroutine Enable Hurtbox for x Seconds
+	IEnumerator CoHurtBoxTime(GameObject hurtBox, float t) {
+		hurtBox.SetActive(true);
+		yield return new WaitForSeconds(t);
+		hurtBox.SetActive(false);
 	}
 
 	//audio
-	void PlaySound (int clip) {
+	public void PlaySound (int clip) {
 		GetComponent<AudioSource>().clip = audioClip [clip];
 		GetComponent<AudioSource>().Play ();
 	}
