@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour {
 			SetMovementType(new Movement_NormalBehaviour());
 		}
 
-		//print(movementType); //Debug
+
 
 		if (h == hLastFrame && h != 0) {
 			movementTimeInOneDirection += Time.deltaTime;
@@ -123,19 +123,13 @@ public class PlayerController : MonoBehaviour {
 
 		//print (turnDelayActive);
 
-		//Manage Face Direction && Dash Dancing
+		//Manage Face Direction
 		if (h < 0 && rigb.transform.eulerAngles.y != 270) {
 			rigb.transform.eulerAngles = new Vector3(0,270,0);
-			if (anim.GetCurrentAnimatorStateInfo(0).IsName("Dash")) {
-				CantMoveFor(0.25f);
-			}
 
 		}
 		if (h > 0 && rigb.transform.eulerAngles.y != 90) {
 			rigb.transform.eulerAngles = new Vector3(0,90,0);
-			if (anim.GetCurrentAnimatorStateInfo(0).IsName("Dash")) {
-				CantMoveFor(0.25f);
-			}
 		}
 	}
 
