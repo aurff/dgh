@@ -17,10 +17,10 @@ public class Movement_NormalBehaviour : Movement {
 			anim.CrossFade("init Dash", 0.01f);
 		}
 
-		if (rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack 01") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack")) {
+		if (rigb.GetComponent<PlayerController>().grounded && rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack 01") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack")) {
 			//anim.CrossFade("Idle",0.1f);
+			Debug.Log(rigb.GetComponent<PlayerController>().grounded);
 			anim.Play("Idle");
 		}
-
 	}
 }
