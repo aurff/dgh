@@ -7,5 +7,6 @@ public class Attack_OutOfShieldAttack : Attack {
 		rigb.GetComponentInParent<PlayerController>().shield.SetActive(false);
 		rigb.GetComponentInParent<PlayerController>().HurtBoxTime(hurtBox, 1);
 		anim.Play("Block Attack");
+		rigb.GetComponent<PlayerController>().PlaySound(4);
 	}
 }
