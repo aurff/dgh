@@ -3,7 +3,7 @@ using System.Collections;
 
 public class HurtBoxScript : MonoBehaviour {
 
-	private float sameAttackForce;
+	private float sameAttackForce = 0;
 	private float attackVsShieldForce = 200.0f;
 
 	// Use this for initialization
@@ -24,23 +24,28 @@ public class HurtBoxScript : MonoBehaviour {
 		//Dash vs Dash && Aerial vs Aerial
 		if (other.gameObject.layer == LayerMask.NameToLayer("HurtBox")) {
 			if (parent.GetComponent<PlayerController>().grounded) {
-				sameAttackForce = 200.0f;
+				sameAttackForce = 800.0f;
 			}
 			else {
-				sameAttackForce = 400.0f;
+				sameAttackForce = 1200.0f;
 			}
+
+			print(sameAttackForce);
 
 			parent.GetComponent<PlayerController>().rigb.velocity = Vector3.zero;
 			other.transform.parent.gameObject.GetComponent<PlayerController>().rigb.velocity = Vector3.zero;
 
 			if (parent.GetComponent<PlayerController>().faceDirection == "left") {
+				print("HurtBox");
 				parent.GetComponent<PlayerController>().rigb.AddForce(sameAttackForce,0,0);
 				parent.GetComponent<PlayerController>().CantMoveFor(0.5f);
 			}
 			else {
 				parent.GetComponent<PlayerController>().rigb.AddForce(-sameAttackForce,0,0);
 				parent.GetComponent<PlayerController>().CantMoveFor(0.5f);
+				print("HurtBox");
 			}
+
 		}
 
 		//switch kann noch rausgelöscht werden, s.o.

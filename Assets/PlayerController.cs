@@ -129,10 +129,12 @@ public class PlayerController : MonoBehaviour {
 		//Manage Face Direction
 		if (h < 0 && rigb.transform.eulerAngles.y != 270) {
 			rigb.transform.eulerAngles = new Vector3(0,270,0);
+			faceDirection = "left";
 
 		}
 		if (h > 0 && rigb.transform.eulerAngles.y != 90) {
 			rigb.transform.eulerAngles = new Vector3(0,90,0);
+			faceDirection = "right";
 		}
 	}
 
@@ -168,6 +170,8 @@ public class PlayerController : MonoBehaviour {
 				GameObject playerWonText = GameObject.Find("PlayerWonText");
 				other.gameObject.active = false;
 				playerWonText.GetComponent<TextMesh>().text = playerName + " wins";
+
+				playerWonText.GetComponent<LevelScripts>().SetRoundsWon(playerName);
 				playerWonText.GetComponent<LevelScripts>().RestartLevel();
 				//audio
 				//PlaySound(6);
