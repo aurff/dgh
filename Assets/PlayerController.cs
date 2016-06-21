@@ -88,11 +88,11 @@ public class PlayerController : MonoBehaviour {
 
 		//Attacken deklaration
 		if (Input.GetButtonDown(attackButton)) {
-			if (grounded) {
-				SetAttackType(new Attack_Dash(), dashHurtBox);
-			}
-			else if (shield.activeSelf) {
+			if (shield.activeSelf) {
 				SetAttackType(new Attack_OutOfShieldAttack(), outOfShieldAttackHurtBox);
+			}
+			else if (grounded) {
+				SetAttackType(new Attack_Dash(), dashHurtBox);
 			}
 			else {
 				SetAttackType(new Attack_Aerial(), aerialHurtBox);
@@ -107,11 +107,14 @@ public class PlayerController : MonoBehaviour {
 				CantMove();
 				//audio
 				PlaySound(3);
+				anim.Play("Block");
 			}
 		}
 		if (Input.GetButtonUp(shieldButton)) {
 			shield.SetActive(false);
 			CanMove();
+
+			anim.Play("Idle");
 		}
 	}
 
@@ -191,6 +194,7 @@ public class PlayerController : MonoBehaviour {
 
 	public void CantMove() {
 		canMove = false;
+		h = 0;
 	}
 
 	public void CanMove() {
