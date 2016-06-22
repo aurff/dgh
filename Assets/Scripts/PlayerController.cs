@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour {
 		}
 			
 		//Enable/Disable Shield on Shield-Button
-		if (Input.GetButtonDown(shieldButton)) {
+		if (Input.GetButtonDown(shieldButton) && GetCanMove()) {
 			if (grounded) {
 				shield.SetActive(true);
 				CantMove();
@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour {
 				anim.Play("Block");
 			}
 		}
-		if (Input.GetButtonUp(shieldButton)) {
+		if (Input.GetButtonUp(shieldButton) && shield.activeSelf) {
 			shield.SetActive(false);
 			CanMove();
 
@@ -203,6 +203,10 @@ public class PlayerController : MonoBehaviour {
 
 	public void CanMove() {
 		canMove = true;
+	}
+
+	public bool GetCanMove() {
+		return canMove;
 	}
 
 	public void IsAttacking() {
