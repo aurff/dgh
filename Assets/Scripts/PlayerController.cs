@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (turnDelayActive >= 0) {
 			turnDelayActive -= Time.deltaTime;
+			print(turnDelayActive);
 			h = hLastFrame;
 		}
 
@@ -108,6 +109,7 @@ public class PlayerController : MonoBehaviour {
 			if (grounded) {
 				rigb.velocity = new Vector2(0, 0);
 				shield.SetActive(true);
+				attacking = true;
 				CantMove();
 				//audio
 				PlaySound(3);
@@ -116,8 +118,8 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (Input.GetButtonUp(shieldButton) && shield.activeSelf) {
 			shield.SetActive(false);
-			CanMove();
-
+			CantMoveFor(0.15f);
+			attacking = false;
 			anim.Play("Idle");
 		}
 	}
@@ -147,7 +149,7 @@ public class PlayerController : MonoBehaviour {
 		switch(collision.gameObject.layer) {
 		case 8: //8 = Ground
 			grounded = true;
-			maxSpeed = 14;
+			airTurnDelay = false;
 			break;
 		case 12: //12 = LevelboundLeft
 
@@ -268,7 +270,25 @@ public class PlayerController : MonoBehaviour {
 
 	public bool GetAirTurnDelay() {
 		return airTurnDelay;
-		print(airTurnDelay);
+	}
+
+	public void DashBackForce() {
+		StartCoroutine(CoDashBackForce());
+	}
+
+	IEnumerator CoDashBackForce() {
+		int x;
+		if (faceDirection == "left") {
+			x = -80;
+		}
+		else {
+			x = 80;
+		}
+
+		for (int i = 0; i <= 10; i++) {
+			rigb.AddForce(new Vector3(x, 0, 0));
+			yield return new WaitForSeconds(0.05f);
+		}
 	}
 
 	//audio

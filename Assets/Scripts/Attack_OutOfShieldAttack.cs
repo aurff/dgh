@@ -10,6 +10,7 @@ public class Attack_OutOfShieldAttack : Attack {
 			anim.Play("Block Attack");
 			rigb.GetComponent<PlayerController>().PlaySound(4);
 			rigb.GetComponent<PlayerController>().CantMoveFor(0.75f);
+			rigb.GetComponent<PlayerController>().IsAttackingFor(0.75f);
 		}
 	}
 }

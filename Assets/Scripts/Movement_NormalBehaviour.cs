@@ -14,6 +14,10 @@ public class Movement_NormalBehaviour : Movement {
 			else if (Mathf.Abs (rigb.velocity.x) < maxSpeed && !rigb.GetComponent<PlayerController>().grounded && rigb.GetComponent<PlayerController>().GetAirTurnDelay()) {
 				rigb.velocity = new Vector2(horizontalForce * moveForce / 3, rigb.velocity.y);
 			}
+
+			else if (!rigb.GetComponent<PlayerController>().grounded && rigb.GetComponent<PlayerController>().GetAirTurnDelay()) {
+				rigb.velocity = new Vector2(horizontalForce * moveForce, rigb.velocity.y);
+			}
 			else {
 				//Cutting the velocity over maxSpeed
 				//rigb.AddForce(Vector2.right * horizontalForce * moveForce);
@@ -33,10 +37,12 @@ public class Movement_NormalBehaviour : Movement {
 				rigb.velocity = new Vector3(0,0,0);
 				anim.Play("Idle");
 				if (rigb.GetComponent<PlayerController>().faceDirection == "left") {
-					rigb.velocity = new Vector2(13, 0);
+					rigb.velocity = new Vector2(20, 0);
+					rigb.GetComponent<PlayerController>().DashBackForce();
 				}
 				else {
-					rigb.velocity = new Vector2(-13, 0);
+					rigb.velocity = new Vector2(-20, 0);
+					rigb.GetComponent<PlayerController>().DashBackForce();
 				}
 			}
 		}
