@@ -7,8 +7,12 @@ public class Movement_NormalBehaviour : Movement {
 
 		if (GameObject.Find("CountdownText").GetComponent<TextMesh>().text == "") {
 			//Horizontal movement on the ground
-			if (Mathf.Abs (rigb.velocity.x) < maxSpeed) {
+			if (Mathf.Abs (rigb.velocity.x) < maxSpeed && rigb.GetComponent<PlayerController>().grounded) {
 				rigb.velocity = new Vector2(horizontalForce * moveForce, rigb.velocity.y);
+			}
+
+			else if (Mathf.Abs (rigb.velocity.x) < maxSpeed && !rigb.GetComponent<PlayerController>().grounded && rigb.GetComponent<PlayerController>().GetAirTurnDelay()) {
+				rigb.velocity = new Vector2(horizontalForce * moveForce / 3, rigb.velocity.y);
 			}
 			else {
 				//Cutting the velocity over maxSpeed

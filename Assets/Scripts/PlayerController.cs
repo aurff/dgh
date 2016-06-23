@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour {
 	private float hLastFrame = 0.0f;
 	private bool canMove = true;
 	private bool attacking = false;
+	private bool airTurnDelay = false;
 
 	public GameObject shield;
 	public GameObject dashHurtBox;
@@ -62,6 +63,7 @@ public class PlayerController : MonoBehaviour {
 		//Movement Deklarieren 
 		if (Input.GetButtonDown(jumpButton) && grounded && canMove) {
 			SetMovementType(new Movement_Jump());
+			AirTurnDelay(0.4f);
 		}
 		else if (!canMove) {
 			SetMovementType(new Movement_CantMove());
@@ -144,6 +146,7 @@ public class PlayerController : MonoBehaviour {
 		switch(collision.gameObject.layer) {
 		case 8: //8 = Ground
 			grounded = true;
+			maxSpeed = 14;
 			break;
 		case 12: //12 = LevelboundLeft
 
@@ -250,6 +253,21 @@ public class PlayerController : MonoBehaviour {
 		hurtBox.SetActive(true);
 		yield return new WaitForSeconds(t);
 		hurtBox.SetActive(false);
+	}
+
+	public void AirTurnDelay(float t) {
+		StartCoroutine(CoAirTurnDelay(t));
+	}
+
+	IEnumerator CoAirTurnDelay(float t) {
+		airTurnDelay = true;
+		yield return new WaitForSeconds(t);
+		airTurnDelay = false;
+	}
+
+	public bool GetAirTurnDelay() {
+		return airTurnDelay;
+		print(airTurnDelay);
 	}
 
 	//audio

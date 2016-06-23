@@ -8,6 +8,7 @@ public class Attack_Aerial : Attack {
 			rigb.GetComponentInParent<PlayerController>().HurtBoxTime(hurtBox, 1);
 			anim.Play("Jump Attack");
 			rigb.GetComponent<PlayerController>().PlaySound(2);
+			rigb.GetComponent<PlayerController>().IsAttackingFor(1);
 		}
 	}
 }
