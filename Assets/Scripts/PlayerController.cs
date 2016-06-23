@@ -8,11 +8,11 @@ public class PlayerController : MonoBehaviour {
 	public float moveForce = 700.0f;
 	public float maxSpeed = 5.0f;
 	public float jumpForce = 350.0f;
-	public float movementTimeInOneDirectionTreshhold = 0.2f;
-	public float turnDelay = 0.1f;
+	public float movementTimeInOneDirectionTreshhold = 0.3f;
+	public float turnDelay = 0.15f;
 	private float turnDelayActive = 0.0f;
 
-	private float h;
+	public float h;
 	private float hLastFrame = 0.0f;
 	private bool canMove = true;
 	private bool attacking = false;
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour {
 		//Movement Deklarieren 
 		if (Input.GetButtonDown(jumpButton) && grounded && canMove) {
 			SetMovementType(new Movement_Jump());
-			AirTurnDelay(0.4f);
+			AirTurnDelay(0.2f);
 		}
 		else if (!canMove) {
 			SetMovementType(new Movement_CantMove());
@@ -84,10 +84,10 @@ public class PlayerController : MonoBehaviour {
 			movementTimeInOneDirection = 0;
 		}
 
-		if (turnDelayActive >= 0) {
+		if (turnDelayActive > 0) {
 			turnDelayActive -= Time.deltaTime;
-			print(turnDelayActive);
 			h = hLastFrame;
+			print("h: " + h);
 		}
 
 		//Attacken deklaration
@@ -130,15 +130,13 @@ public class PlayerController : MonoBehaviour {
 		
 		movementType.Move(rigb, anim, h, moveForce, maxSpeed);
 
-		//print (turnDelayActive);
-
 		//Manage Face Direction
-		if (h < 0 && rigb.transform.eulerAngles.y != 270 && attacking == false) {
+		if (h < 0 && rigb.transform.eulerAngles.y != 270 && attacking == false && grounded) {
 			rigb.transform.eulerAngles = new Vector3(0,270,0);
 			faceDirection = "left";
 
 		}
-		if (h > 0 && rigb.transform.eulerAngles.y != 90 && attacking == false) {
+		if (h > 0 && rigb.transform.eulerAngles.y != 90 && attacking == false && grounded) {
 			rigb.transform.eulerAngles = new Vector3(0,90,0);
 			faceDirection = "right";
 		}
@@ -150,6 +148,7 @@ public class PlayerController : MonoBehaviour {
 		case 8: //8 = Ground
 			grounded = true;
 			airTurnDelay = false;
+			moveForce = 14;
 			break;
 		case 12: //12 = LevelboundLeft
 
@@ -263,6 +262,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	IEnumerator CoAirTurnDelay(float t) {
+		yield return 0;
+		SetMovementType(new Movement_NormalBehaviour());
 		airTurnDelay = true;
 		yield return new WaitForSeconds(t);
 		airTurnDelay = false;
