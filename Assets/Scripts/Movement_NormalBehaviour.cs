@@ -23,6 +23,18 @@ public class Movement_NormalBehaviour : Movement {
 				//anim.CrossFade("Idle",0.1f);
 				anim.Play("Idle");
 			}
+
+			if (Input.GetButtonDown(rigb.GetComponent<PlayerController>().backDashButton)) {				
+				rigb.GetComponent<PlayerController>().CantMoveFor(0.5f);
+				rigb.velocity = new Vector3(0,0,0);
+				anim.Play("Idle");
+				if (rigb.GetComponent<PlayerController>().faceDirection == "left") {
+					rigb.velocity = new Vector2(13, 0);
+				}
+				else {
+					rigb.velocity = new Vector2(-13, 0);
+				}
+			}
 		}
 	}
 }

@@ -10,6 +10,7 @@ public class Attack_Dash : Attack {
 			anim.Play("Attack 01", -1, 0f);
 
 			rigb.GetComponent<PlayerController>().CantMoveFor(1.0f);
+			rigb.GetComponent<PlayerController>().IsAttackingFor(1.0f);
 			rigb.GetComponent<PlayerController>().PlaySound(5);
 		}
 	}

@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour {
 	public string jumpButton;
 	public string attackButton;
 	public string shieldButton;
+	public string backDashButton;
 
 	//Unschön, dass diese Public sind
 	public string faceDirection;
@@ -127,12 +128,12 @@ public class PlayerController : MonoBehaviour {
 		//print (turnDelayActive);
 
 		//Manage Face Direction
-		if (h < 0 && rigb.transform.eulerAngles.y != 270) {
+		if (h < 0 && rigb.transform.eulerAngles.y != 270 && attacking == false) {
 			rigb.transform.eulerAngles = new Vector3(0,270,0);
 			faceDirection = "left";
 
 		}
-		if (h > 0 && rigb.transform.eulerAngles.y != 90) {
+		if (h > 0 && rigb.transform.eulerAngles.y != 90 && attacking == false) {
 			rigb.transform.eulerAngles = new Vector3(0,90,0);
 			faceDirection = "right";
 		}
@@ -227,6 +228,16 @@ public class PlayerController : MonoBehaviour {
 		canMove = false;
 		yield return new WaitForSeconds(t);
 		canMove = true;
+	}
+
+	public void IsAttackingFor(float t) {
+		StartCoroutine(CoIsAttackingFor(t));
+	}
+
+	IEnumerator CoIsAttackingFor(float t) {
+		attacking = true;
+		yield return new WaitForSeconds(t);
+		attacking = false;
 	}
 
 	//public Start for Enable Hurtbox for x Seconds
