@@ -106,6 +106,7 @@ public class PlayerController : MonoBehaviour {
 		//Enable/Disable Shield on Shield-Button
 		if (Input.GetButtonDown(shieldButton) && GetCanMove()) {
 			if (grounded) {
+				rigb.velocity = new Vector2(0, 0);
 				shield.SetActive(true);
 				CantMove();
 				//audio
