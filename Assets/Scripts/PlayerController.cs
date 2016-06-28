@@ -238,6 +238,10 @@ public class PlayerController : MonoBehaviour {
 		attacking = false;
 	}
 
+	public bool GetIsAttacking() {
+		return attacking;
+	}
+
 	//public Start for Disable Movement Input for x Seconds
 	public void CantMoveFor(float t) {
 		StartCoroutine(CoCantMoveFor(t));

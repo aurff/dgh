@@ -9,7 +9,7 @@ public class Movement_Jump : Movement {
 		rigb.AddForce(new Vector2(0, 12f), ForceMode.VelocityChange);
 		//rigb.GetComponent<Animation>().CrossFade("Jump");
 
-		anim.Play("Jump", -1,0f);
+		anim.Play("init Jump");
 		rigb.GetComponent<PlayerController>().PlaySound(1);
 	}
 

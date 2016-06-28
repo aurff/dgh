@@ -5,6 +5,11 @@ public class Movement_NormalBehaviour : Movement {
 
 	public void Move(Rigidbody rigb, Animator anim, float horizontalForce, float moveForce, float maxSpeed) {
 
+		if (anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash")) {
+			rigb.velocity = new Vector2(horizontalForce * moveForce * 1.5f, rigb.velocity.y);
+			Debug.Log("faster");
+		}
+
 		if (GameObject.Find("CountdownText").GetComponent<TextMesh>().text == "") {
 			//Horizontal movement on the ground
 			//if (Mathf.Abs (rigb.velocity.x) < maxSpeed && rigb.GetComponent<PlayerController>().grounded) {
