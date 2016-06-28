@@ -109,6 +109,7 @@ public class PlayerController : MonoBehaviour {
 			}
 			else {
 				SetAttackType(new Attack_Aerial(), aerialHurtBox);
+				Debug.Log("set aerial");
 			}
 			attackType.Attack(rigb, anim, activeHurtBox);
 		}
@@ -122,14 +123,14 @@ public class PlayerController : MonoBehaviour {
 				CantMove();
 				//audio
 				PlaySound(3);
-				anim.Play("Block");
+				anim.Play("Shield");
 			}
 		}
 		if (Input.GetButtonUp(shieldButton) && shield.activeSelf) {
 			shield.SetActive(false);
 			CantMoveFor(0.15f);
 			attacking = false;
-			anim.Play("Idle");
+			anim.Play("Shield Drop");
 		}
 	}
 

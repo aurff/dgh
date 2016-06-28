@@ -45,7 +45,7 @@ public class Movement_NormalBehaviour : Movement {
 				anim.CrossFade("init Dash", 0.01f);
 			}
 
-		if (rigb.GetComponent<PlayerController>().grounded && rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack 01") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dash Stop") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Pivot") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land")) {
+		if (rigb.GetComponent<PlayerController>().grounded && rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack 01") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Shield") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dash Stop") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Pivot") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Shield Drop")) {
 				//anim.CrossFade("Idle",0.1f);
 				anim.Play("Idle");
 			}
@@ -53,7 +53,7 @@ public class Movement_NormalBehaviour : Movement {
 			if (Input.GetButtonDown(rigb.GetComponent<PlayerController>().backDashButton)) {				
 				rigb.GetComponent<PlayerController>().CantMoveFor(0.5f);
 				rigb.velocity = new Vector3(0,0,0);
-				anim.Play("Idle");
+				anim.Play("Main WD");
 				if (rigb.GetComponent<PlayerController>().faceDirection == "left") {
 					rigb.velocity = new Vector2(20, 0);
 					rigb.GetComponent<PlayerController>().DashBackForce();
