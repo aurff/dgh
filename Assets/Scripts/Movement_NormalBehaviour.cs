@@ -12,7 +12,7 @@ public class Movement_NormalBehaviour : Movement {
 				rigb.velocity = new Vector2(horizontalForce * moveForce, rigb.velocity.y);
 			}
 
-			if (rigb.GetComponent<PlayerController>().GetAirTurnDelay()) {
+			/*if (rigb.GetComponent<PlayerController>().GetAirTurnDelay()) {
 				if (rigb.GetComponent<PlayerController>().h > 0 && rigb.GetComponent<PlayerController>().faceDirection == "left") {
 					rigb.AddForce(new Vector3(rigb.GetComponent<PlayerController>().h * 140, 0, 0));
 				}
@@ -22,7 +22,7 @@ public class Movement_NormalBehaviour : Movement {
 
 
 
-			}
+			}*/
 				
 			/*if (Mathf.Abs (rigb.velocity.x) < maxSpeed && !rigb.GetComponent<PlayerController>().grounded) { //&& rigb.GetComponent<PlayerController>().GetAirTurnDelay()) {
 				rigb.velocity = new Vector2(horizontalForce * moveForce / 3, rigb.velocity.y);

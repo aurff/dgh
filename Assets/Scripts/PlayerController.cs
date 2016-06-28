@@ -140,6 +140,11 @@ public class PlayerController : MonoBehaviour {
 			rigb.transform.eulerAngles = new Vector3(0,90,0);
 			faceDirection = "right";
 		}
+
+		//Soll nicht gewollte Rotation von Rigidbody unterbinden
+		if (rigb.transform.eulerAngles.x != 0 || rigb.transform.eulerAngles.z != 0) {
+			rigb.transform.eulerAngles = new Vector3(0, rigb.transform.eulerAngles.y, 0);
+		}
 	}
 
 	void OnCollisionEnter(Collision collision) {
