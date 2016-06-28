@@ -45,7 +45,7 @@ public class Movement_NormalBehaviour : Movement {
 				anim.CrossFade("init Dash", 0.01f);
 			}
 
-		if (rigb.GetComponent<PlayerController>().grounded && rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack 01") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dash Stop") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Pivot")) {
+		if (rigb.GetComponent<PlayerController>().grounded && rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack 01") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dash Stop") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Pivot") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land")) {
 				//anim.CrossFade("Idle",0.1f);
 				anim.Play("Idle");
 			}
@@ -62,6 +62,12 @@ public class Movement_NormalBehaviour : Movement {
 					rigb.velocity = new Vector2(-20, 0);
 					rigb.GetComponent<PlayerController>().DashBackForce();
 				}
+				
+				if (!rigb.GetComponent<PlayerController>().grounded) {
+					anim.Play("Jump WD");
+				}
+
+
 			}
 		}
 	}

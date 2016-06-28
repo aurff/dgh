@@ -154,6 +154,11 @@ public class PlayerController : MonoBehaviour {
 		if (rigb.transform.eulerAngles.x != 0 || rigb.transform.eulerAngles.z != 0) {
 			rigb.transform.eulerAngles = new Vector3(0, rigb.transform.eulerAngles.y, 0);
 		}
+
+		//Jump Landing Animation
+		if (!grounded && rigb.velocity.y < 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land") && rigb.position.y <= 1) {
+			anim.Play("Jump land");
+		}
 	}
 
 	void OnCollisionEnter(Collision collision) {
