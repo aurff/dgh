@@ -188,6 +188,7 @@ public class PlayerController : MonoBehaviour {
 				playerWonText.GetComponent<TextMesh>().text = playerName + " wins";
 
 				playerWonText.GetComponent<LevelScripts>().SetRoundsWon(playerName);
+				Debug.Log(playerName);
 				playerWonText.GetComponent<LevelScripts>().RestartLevel();
 				//audio
 				//PlaySound(6);

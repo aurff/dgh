@@ -81,11 +81,13 @@ public class LevelScripts : MonoBehaviour {
 			wonRounds = GameObject.Find("Player1RoundsWon").GetComponent<Text>();
 			player1RoundsWon++;
 			rounds = player1RoundsWon;
+			print("test1");
 			break;
 		case "Player 2":
 			wonRounds = GameObject.Find("Player2RoundsWon").GetComponent<Text>();
 			player2RoundsWon++;
 			rounds = player2RoundsWon;
+			print("test2");
 			break;
 		default:
 			rounds = 0;
