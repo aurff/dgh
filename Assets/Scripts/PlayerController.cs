@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour {
 			movementTimeInOneDirection = 0;
 		}
 
-		if (h == 0 && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash" && grounded)) {
+		if (h == 0 && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash") && grounded) {
 			anim.Play("Dash Stop");
 			Debug.Log("Dash Stop");
 		}
