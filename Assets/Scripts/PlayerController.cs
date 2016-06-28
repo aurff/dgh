@@ -194,7 +194,12 @@ public class PlayerController : MonoBehaviour {
 			}
 			else {
 				GameObject playerWonText = GameObject.Find("PlayerWonText");
-				other.gameObject.active = false;
+				if (other.GetComponent<PlayerController>().grounded) {
+					other.GetComponent<PlayerController>().Dead(other, 0.0f);
+				}
+				else {
+					other.GetComponent<PlayerController>().Dead(other, 0.5f);
+				}
 				playerWonText.GetComponent<TextMesh>().text = playerName + " wins";
 
 				playerWonText.GetComponent<LevelScripts>().SetRoundsWon(playerName);
@@ -202,7 +207,7 @@ public class PlayerController : MonoBehaviour {
 					Victory(0.0f);
 				}
 				else {
-					Victory(0.5f);
+					Victory(0.6f);
 				}
 
 				CantMove();
@@ -331,8 +336,18 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	IEnumerator CoVictory(float delay) {
+		CantMove();
 		yield return new WaitForSeconds(delay);
 		anim.Play("Victory");
+	}
+
+	public void Dead(Collider other, float delay) {
+		StartCoroutine(CoDead(other, delay));
+	}
+
+	IEnumerator CoDead(Collider other, float delay) {
+		yield return new WaitForSeconds(delay);
+		other.GetComponent<PlayerController>().anim.Play("Dead");
 	}
 
 	//audio
