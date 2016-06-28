@@ -77,11 +77,12 @@ public class PlayerController : MonoBehaviour {
 		if (h == hLastFrame && h != 0) {
 			movementTimeInOneDirection += Time.deltaTime;
 		}
-		else if (h != hLastFrame && anim.GetNextAnimatorStateInfo(0).IsName("Dash") && turnDelayActive <= 0) {
+		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash") && turnDelayActive <= 0) {
 			turnDelayActive = turnDelay;
+			anim.Play("Dash Stop");
 		}
 		//Not sure if needed
-		else if (h != hLastFrame && anim.GetNextAnimatorStateInfo(0).IsName("init Dash") && turnDelayActive <= 0) {
+		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash") && turnDelayActive <= 0) {
 			anim.Play("init Dash");
 		}
 		else {
