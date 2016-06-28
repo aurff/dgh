@@ -141,12 +141,12 @@ public class PlayerController : MonoBehaviour {
 		movementType.Move(rigb, anim, h, moveForce, maxSpeed);
 
 		//Manage Face Direction
-		if (h < 0 && rigb.transform.eulerAngles.y != 270 && attacking == false && grounded) {
+		if (h < 0 && rigb.transform.eulerAngles.y != 270 && attacking == false && grounded && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			rigb.transform.eulerAngles = new Vector3(0,270,0);
 			faceDirection = "left";
 
 		}
-		if (h > 0 && rigb.transform.eulerAngles.y != 90 && attacking == false && grounded) {
+		if (h > 0 && rigb.transform.eulerAngles.y != 90 && attacking == false && grounded && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			rigb.transform.eulerAngles = new Vector3(0,90,0);
 			faceDirection = "right";
 		}
@@ -198,6 +198,14 @@ public class PlayerController : MonoBehaviour {
 				playerWonText.GetComponent<TextMesh>().text = playerName + " wins";
 
 				playerWonText.GetComponent<LevelScripts>().SetRoundsWon(playerName);
+				if (grounded) {
+					Victory(0.0f);
+				}
+				else {
+					Victory(0.5f);
+				}
+
+				CantMove();
 				PlaySound(6);
 				playerWonText.GetComponent<LevelScripts>().RestartLevel();
 				//audio
@@ -316,6 +324,15 @@ public class PlayerController : MonoBehaviour {
 			rigb.AddForce(new Vector3(x, 0, 0));
 			yield return new WaitForSeconds(0.05f);
 		}
+	}
+
+	public void Victory(float delay) {
+		StartCoroutine(CoVictory(delay));
+	}
+
+	IEnumerator CoVictory(float delay) {
+		yield return new WaitForSeconds(delay);
+		anim.Play("Victory");
 	}
 
 	//audio

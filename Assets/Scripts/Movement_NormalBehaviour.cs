@@ -13,7 +13,7 @@ public class Movement_NormalBehaviour : Movement {
 		if (GameObject.Find("CountdownText").GetComponent<TextMesh>().text == "") {
 			//Horizontal movement on the ground
 			//if (Mathf.Abs (rigb.velocity.x) < maxSpeed && rigb.GetComponent<PlayerController>().grounded) {
-			if (rigb.GetComponent<PlayerController>().grounded) {
+			if (rigb.GetComponent<PlayerController>().grounded && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 				rigb.velocity = new Vector2(horizontalForce * moveForce, rigb.velocity.y);
 			}
 
@@ -45,7 +45,7 @@ public class Movement_NormalBehaviour : Movement {
 				anim.CrossFade("init Dash", 0.01f);
 			}
 
-		if (rigb.GetComponent<PlayerController>().grounded && rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack 01") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Shield") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dash Stop") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Pivot") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Shield Drop")) {
+		if (rigb.GetComponent<PlayerController>().grounded && rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack 01") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Shield") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dash Stop") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Pivot") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Shield Drop") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 				//anim.CrossFade("Idle",0.1f);
 				anim.Play("Idle");
 			}
