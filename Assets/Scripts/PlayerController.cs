@@ -80,10 +80,12 @@ public class PlayerController : MonoBehaviour {
 		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash") && turnDelayActive <= 0) {
 			turnDelayActive = turnDelay;
 			anim.Play("Pivot");
+			Debug.Log("Pivot");
 		}
 		//Not sure if needed
 		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash") && turnDelayActive <= 0) {
 			anim.Play("Dash Stop");
+			Debug.Log("Dash Stop");
 		}
 		else {
 			movementTimeInOneDirection = 0;
@@ -193,7 +195,6 @@ public class PlayerController : MonoBehaviour {
 				playerWonText.GetComponent<TextMesh>().text = playerName + " wins";
 
 				playerWonText.GetComponent<LevelScripts>().SetRoundsWon(playerName);
-				Debug.Log(playerName);
 				playerWonText.GetComponent<LevelScripts>().RestartLevel();
 				//audio
 				//PlaySound(6);
