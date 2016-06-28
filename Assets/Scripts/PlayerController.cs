@@ -77,13 +77,13 @@ public class PlayerController : MonoBehaviour {
 		if (h == hLastFrame && h != 0) {
 			movementTimeInOneDirection += Time.deltaTime;
 		}
-		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash") && turnDelayActive <= 0) {
+		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash") && turnDelayActive <= 0 && grounded) {
 			turnDelayActive = turnDelay;
 			anim.Play("Pivot");
 			Debug.Log("Pivot");
 		}
 		//Not sure if needed
-		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash") && turnDelayActive <= 0) {
+		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash") && turnDelayActive <= 0 && grounded) {
 			anim.Play("Dash Stop");
 			Debug.Log("Dash Stop");
 		}
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour {
 			movementTimeInOneDirection = 0;
 		}
 
-		if (h == 0 && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash")) {
+		if (h == 0 && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash" && grounded)) {
 			anim.Play("Dash Stop");
 			Debug.Log("Dash Stop");
 		}
