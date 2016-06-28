@@ -93,6 +93,7 @@ public class LevelScripts : MonoBehaviour {
 			break;
 		}
 		wonRounds.text = "Rounds Won: " + rounds;
+
 	}
 
 	private void StartCountdown() {

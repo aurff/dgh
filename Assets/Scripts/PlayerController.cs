@@ -270,12 +270,13 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//public Start for Enable Hurtbox for x Seconds
-	public void HurtBoxTime(GameObject HurtBox, float t) {
-		StartCoroutine(CoHurtBoxTime(HurtBox, t));
+	public void HurtBoxTime(GameObject HurtBox, float time, float delay) {
+		StartCoroutine(CoHurtBoxTime(HurtBox, time, delay));
 	}
 
 	//Coroutine Enable Hurtbox for x Seconds
-	IEnumerator CoHurtBoxTime(GameObject hurtBox, float t) {
+	IEnumerator CoHurtBoxTime(GameObject hurtBox, float t, float d) {
+		yield return new WaitForSeconds(d);
 		hurtBox.SetActive(true);
 		yield return new WaitForSeconds(t);
 		hurtBox.SetActive(false);

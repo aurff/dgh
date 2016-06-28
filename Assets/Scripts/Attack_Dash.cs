@@ -5,7 +5,7 @@ public class Attack_Dash : Attack {
 
 	public void Attack(Rigidbody rigb, Animator anim, GameObject hurtBox) {
 		if (rigb.GetComponent<PlayerController>().GetCanMove()) {
-			rigb.GetComponentInParent<PlayerController>().HurtBoxTime(hurtBox, 1);
+			rigb.GetComponentInParent<PlayerController>().HurtBoxTime(hurtBox, 0.3f, 0.08f);
 
 			//anim.Play("Attack 01", -1, 0f);
 			anim.Play("Attack 01");
