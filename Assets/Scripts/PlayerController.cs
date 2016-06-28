@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
 	public float moveForce = 700.0f;
 	public float maxSpeed = 5.0f;
 	public float jumpForce = 350.0f;
-	public float movementTimeInOneDirectionTreshhold = 0.3f;
+	//public float movementTimeInOneDirectionTreshhold = 0.3f;
 	public float turnDelay = 0.15f;
 	private float turnDelayActive = 0.0f;
 
@@ -77,8 +77,12 @@ public class PlayerController : MonoBehaviour {
 		if (h == hLastFrame && h != 0) {
 			movementTimeInOneDirection += Time.deltaTime;
 		}
-		else if (h != hLastFrame && movementTimeInOneDirection >= movementTimeInOneDirectionTreshhold && turnDelayActive <= 0) {
+		else if (h != hLastFrame && anim.GetNextAnimatorStateInfo(0).IsName("Dash") && turnDelayActive <= 0) {
 			turnDelayActive = turnDelay;
+		}
+		//Not sure if needed
+		else if (h != hLastFrame && anim.GetNextAnimatorStateInfo(0).IsName("init Dash") && turnDelayActive <= 0) {
+			anim.Play("init Dash");
 		}
 		else {
 			movementTimeInOneDirection = 0;
