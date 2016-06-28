@@ -18,6 +18,10 @@ public class LevelScripts : MonoBehaviour {
 
 	private TextMesh countdownText;
 
+	void Awake() {
+		Application.targetFrameRate = 60;
+	}
+
 	// Use this for initialization
 	void Start () {
 		player1 = GameObject.Find("Player1");
@@ -42,9 +46,9 @@ public class LevelScripts : MonoBehaviour {
 		}
 
 		//Quit Game and Return to the Main Menu (zur Zeit der SplashScreen)
-		if (Input.GetKey(KeyCode.Escape)) {
+		/*if (Input.GetKey(KeyCode.Escape)) {
 			SceneManager.LoadScene("splashScreen");
-		}
+		}*/
 	}
 
 	public void RestartLevel() {

@@ -1,5 +1,6 @@
 fileFormatVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
 guid: 54b9317172a17f840a653f7e5e2d3604
 timeCreated: 1467024054
 licenseType: Free
@@ -9,6 +10,10 @@ ModelImporter:
 =======
 guid: 947d26f91b27b4c4ba02f6b918f768ce
 timeCreated: 1466498204
+=======
+guid: 7defa23727da6bc4a861d518d084c7b1
+timeCreated: 1467114098
+>>>>>>> origin/master
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -122,7 +127,10 @@ ModelImporter:
     7400002: ArmatureAction
     9500000: //RootNode
     13700000: Cone
+<<<<<<< HEAD
 >>>>>>> refs/remotes/origin/neuer_Zweig
+=======
+>>>>>>> origin/master
   materials:
     importMaterials: 1
     materialName: 0

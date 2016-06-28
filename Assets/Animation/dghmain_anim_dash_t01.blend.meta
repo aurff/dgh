@@ -1,5 +1,6 @@
 fileFormatVersion: 2
 <<<<<<< HEAD
+<<<<<<< HEAD
 guid: 2ce5293cd7b97cb458bc76c4a944ae8c
 timeCreated: 1467024038
 licenseType: Free
@@ -9,6 +10,10 @@ ModelImporter:
 =======
 guid: a628dab24f23bc34b9b09ba05b05f441
 timeCreated: 1463984583
+=======
+guid: 38235e1ea5ea6034b994c37fed2b7eff
+timeCreated: 1467114087
+>>>>>>> origin/master
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -122,7 +127,10 @@ ModelImporter:
     7400002: ArmatureAction
     9500000: //RootNode
     13700000: Cone
+<<<<<<< HEAD
 >>>>>>> refs/remotes/origin/neuer_Zweig
+=======
+>>>>>>> origin/master
   materials:
     importMaterials: 1
     materialName: 0
@@ -144,8 +152,11 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
 <<<<<<< HEAD
+<<<<<<< HEAD
     clipAnimations: []
 =======
+=======
+>>>>>>> origin/master
     clipAnimations:
     - serializedVersion: 16
       name: Default Take
@@ -411,7 +422,10 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
+<<<<<<< HEAD
 >>>>>>> refs/remotes/origin/neuer_Zweig
+=======
+>>>>>>> origin/master
     isReadable: 1
   meshes:
     lODScreenPercentages: []
