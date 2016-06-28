@@ -79,14 +79,19 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash") && turnDelayActive <= 0) {
 			turnDelayActive = turnDelay;
-			anim.Play("Dash Stop");
+			anim.Play("Pivot");
 		}
 		//Not sure if needed
 		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash") && turnDelayActive <= 0) {
-			anim.Play("init Dash");
+			anim.Play("Dash Stop");
 		}
 		else {
 			movementTimeInOneDirection = 0;
+		}
+
+		if (h == 0 && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash")) {
+			anim.Play("Dash Stop");
+			Debug.Log("Dash Stop");
 		}
 
 		if (turnDelayActive > 0) {
