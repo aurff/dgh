@@ -46,9 +46,9 @@ public class LevelScripts : MonoBehaviour {
 		}
 
 		//Quit Game and Return to the Main Menu (zur Zeit der SplashScreen)
-		if (Input.GetKey(KeyCode.Escape)) {
+		/*if (Input.GetKey(KeyCode.Escape)) {
 			SceneManager.LoadScene("splashScreen");
-		}
+		}*/
 	}
 
 	public void RestartLevel() {
