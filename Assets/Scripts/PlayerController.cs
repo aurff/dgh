@@ -72,8 +72,6 @@ public class PlayerController : MonoBehaviour {
 			SetMovementType(new Movement_NormalBehaviour());
 		}
 
-
-
 		if (h == hLastFrame && h != 0) {
 			movementTimeInOneDirection += Time.deltaTime;
 		}
@@ -99,7 +97,6 @@ public class PlayerController : MonoBehaviour {
 		if (turnDelayActive > 0) {
 			turnDelayActive -= Time.deltaTime;
 			h = hLastFrame;
-			print("h: " + h);
 		}
 
 		//Attacken deklaration
