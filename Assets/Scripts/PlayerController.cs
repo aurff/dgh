@@ -151,10 +151,10 @@ public class PlayerController : MonoBehaviour {
 			moveForce = 14;
 			break;
 		case 12: //12 = LevelboundLeft
-
+			
 			break;
 		case 13: //13 = LevelboundRight
-
+			
 			break;
 		}
 	}
