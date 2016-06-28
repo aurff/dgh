@@ -1,0 +1,20 @@
+Animtaion:
+
+Dash-Init-(Stop)-Pivot
+
+Dash Attack
+
+
+Jump-Init-Land
+
+AerialAttack
+
+
+WaveDash-Aerial Wavedash
+
+Shield-Shielddrop-ShieldAttack
+
+Get Hit
+
+
+(Idle2, Taunt)
