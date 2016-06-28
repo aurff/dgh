@@ -18,6 +18,10 @@ public class LevelScripts : MonoBehaviour {
 
 	private TextMesh countdownText;
 
+	void Awake() {
+		Application.targetFrameRate = 60;
+	}
+
 	// Use this for initialization
 	void Start () {
 		player1 = GameObject.Find("Player1");
