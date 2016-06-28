@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 8f260229a5fdd104597097ac0d63e2dd
 timeCreated: 1467032222
+=======
+guid: a23840a42aa186841b43d9414b88f83e
+timeCreated: 1467105921
+>>>>>>> refs/remotes/origin/neuer_Zweig
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}

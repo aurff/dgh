@@ -1,14 +1,10 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: 22a62e93e01a8314eb11b23019e6ae5c
-timeCreated: 1467028094
-=======
-guid: 3ae6eef7dad427c4f9dad9172fb549c9
-timeCreated: 1467105920
->>>>>>> refs/remotes/origin/neuer_Zweig
+guid: 3da215433b3f1774eb4732bd3bda75f5
+timeCreated: 1466581509
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    8900000: generatedCubemap
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -26,22 +22,22 @@ TextureImporter:
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
-  generateCubemap: 0
-  cubemapConvolution: 0
+  generateCubemap: 6
+  cubemapConvolution: 1
   cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
-  seamlessCubemap: 0
+  seamlessCubemap: 1
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: -1
-    aniso: -1
-    mipBias: -1
-    wrapMode: -1
+    filterMode: 2
+    aniso: 0
+    mipBias: 0
+    wrapMode: 1
   nPOTScale: 1
   lightmap: 0
   rGBM: 0
-  compressionQuality: 50
+  compressionQuality: 100
   allowsAlphaSplitting: 0
   spriteMode: 0
   spriteExtrude: 1
@@ -51,7 +47,7 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
   alphaIsTransparency: 0
-  textureType: -1
+  textureType: 3
   buildTargetSettings: []
   spriteSheet:
     sprites: []
