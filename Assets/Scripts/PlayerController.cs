@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour {
 				anim.Play("Shield");
 			}
 		}
-		if (Input.GetButtonUp(shieldButton) && shield.activeSelf) {
+		if (Input.GetButtonUp(shieldButton) && shield.activeSelf && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dead")) {
 			shield.SetActive(false);
 			CantMoveFor(0.15f);
 			attacking = false;
@@ -346,7 +346,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	IEnumerator CoDead(Collider other, float delay) {
-		yield return new WaitForSeconds(delay);
+		other.GetComponent<PlayerController>().CantMove();
+		yield return new WaitForSeconds(0);
+		//yield return new WaitForSeconds(delay);
 		other.GetComponent<PlayerController>().anim.Play("Dead");
 	}
 
