@@ -156,6 +156,11 @@ public class PlayerController : MonoBehaviour {
 			rigb.transform.eulerAngles = new Vector3(0, rigb.transform.eulerAngles.y, 0);
 		}
 
+		//If Jump WD Error, delete following if
+		if (!grounded && rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land") && !anim.GetCurrentAnimatorStateInfo(0).IsName("init Jump") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump WD")) {
+			anim.Play("Jump");
+		}
+
 		//Jump Landing Animation
 		if (!grounded && rigb.velocity.y < 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land") && rigb.position.y <= 1) {
 			anim.Play("Jump land");
@@ -210,7 +215,7 @@ public class PlayerController : MonoBehaviour {
 					Victory(0.0f);
 				}
 				else {
-					Victory(1f);
+					Victory(0.8f);
 				}
 
 				CantMove();
@@ -341,7 +346,7 @@ public class PlayerController : MonoBehaviour {
 	IEnumerator CoVictory(float delay) {
 		CantMove();
 		IsAttacking();
-		yield return new WaitForSeconds(delay);
+		yield return new WaitForSeconds(0.2f + delay);
 		anim.Play("Victory");
 	}
 

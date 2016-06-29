@@ -45,11 +45,11 @@ public class Movement_NormalBehaviour : Movement {
 				anim.CrossFade("init Dash", 0.01f);
 			}
 
-		if (rigb.GetComponent<PlayerController>().grounded && rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack 01") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Shield") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dash Stop") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Pivot") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Shield Drop") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dead")) {
+			if (rigb.GetComponent<PlayerController>().grounded && rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Attack 01") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Shield") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dash Stop") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Pivot") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") && !!anim.GetCurrentAnimatorStateInfo(0).IsName("init Jump") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Shield Drop") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dead")) {
 				//anim.CrossFade("Idle",0.1f);
 				anim.Play("Idle");
 			}
-
+			
 			if (Input.GetButtonDown(rigb.GetComponent<PlayerController>().backDashButton)) {				
 				rigb.GetComponent<PlayerController>().CantMoveFor(0.5f);
 				rigb.velocity = new Vector3(0,0,0);
