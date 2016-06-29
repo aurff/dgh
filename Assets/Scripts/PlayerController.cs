@@ -61,14 +61,14 @@ public class PlayerController : MonoBehaviour {
 		h = Input.GetAxisRaw(horizontalAxis);
 
 		//Movement Deklarieren 
-		if (Input.GetButtonDown(jumpButton) && grounded && canMove) {
+		if (Input.GetButtonDown(jumpButton) && grounded && canMove && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			SetMovementType(new Movement_Jump());
 			AirTurnDelay(0.2f);
 		}
-		else if (!canMove) {
+		else if (!canMove && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			SetMovementType(new Movement_CantMove());
 		}
-		else {
+		else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			SetMovementType(new Movement_NormalBehaviour());
 		}
 
@@ -100,14 +100,14 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Attacken deklaration
-		if (Input.GetButtonDown(attackButton) && GetCanMove()) {
+		if (Input.GetButtonDown(attackButton) && GetCanMove() && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			if (shield.activeSelf) {
 				SetAttackType(new Attack_OutOfShieldAttack(), outOfShieldAttackHurtBox);
 			}
-			else if (grounded) {
+			else if (grounded && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 				SetAttackType(new Attack_Dash(), dashHurtBox);
 			}
-			else {
+			else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 				SetAttackType(new Attack_Aerial(), aerialHurtBox);
 				Debug.Log("set aerial");
 			}
@@ -115,7 +115,7 @@ public class PlayerController : MonoBehaviour {
 		}
 			
 		//Enable/Disable Shield on Shield-Button
-		if (Input.GetButtonDown(shieldButton) && GetCanMove()) {
+		if (Input.GetButtonDown(shieldButton) && GetCanMove() && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			if (grounded) {
 				rigb.velocity = new Vector2(0, 0);
 				shield.SetActive(true);
@@ -210,7 +210,7 @@ public class PlayerController : MonoBehaviour {
 					Victory(0.0f);
 				}
 				else {
-					Victory(0.6f);
+					Victory(1f);
 				}
 
 				CantMove();
@@ -340,6 +340,7 @@ public class PlayerController : MonoBehaviour {
 
 	IEnumerator CoVictory(float delay) {
 		CantMove();
+		IsAttacking();
 		yield return new WaitForSeconds(delay);
 		anim.Play("Victory");
 	}
