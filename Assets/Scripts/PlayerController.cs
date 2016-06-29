@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
 	public float moveForce = 700.0f;
 	public float maxSpeed = 5.0f;
 	public float jumpForce = 350.0f;
-	public float movementTimeInOneDirectionTreshhold = 0.3f;
+	//public float movementTimeInOneDirectionTreshhold = 0.3f;
 	public float turnDelay = 0.15f;
 	private float turnDelayActive = 0.0f;
 
@@ -51,8 +51,8 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		SetMovementType(new Movement_NormalBehaviour());
 		shield.SetActive(false);
-		dashHurtBox.SetActive(false);
-		outOfShieldAttackHurtBox.SetActive(false);
+		//dashHurtBox.SetActive(false);
+		//outOfShieldAttackHurtBox.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -61,37 +61,46 @@ public class PlayerController : MonoBehaviour {
 		h = Input.GetAxisRaw(horizontalAxis);
 
 		//Movement Deklarieren 
-		if (Input.GetButtonDown(jumpButton) && grounded && canMove) {
+		if (Input.GetButtonDown(jumpButton) && grounded && canMove && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			SetMovementType(new Movement_Jump());
 			AirTurnDelay(0.2f);
 		}
-		else if (!canMove) {
+		else if (!canMove && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			SetMovementType(new Movement_CantMove());
 		}
-		else {
+		else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			SetMovementType(new Movement_NormalBehaviour());
 		}
-
-
 
 		if (h == hLastFrame && h != 0) {
 			movementTimeInOneDirection += Time.deltaTime;
 		}
-		else if (h != hLastFrame && movementTimeInOneDirection >= movementTimeInOneDirectionTreshhold && turnDelayActive <= 0) {
+		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash") && turnDelayActive <= 0 && grounded) {
 			turnDelayActive = turnDelay;
+			anim.Play("Pivot");
+			Debug.Log("Pivot");
+		}
+		//Not sure if needed
+		else if (h != hLastFrame && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash") && turnDelayActive <= 0 && grounded) {
+			anim.Play("Dash Stop");
+			Debug.Log("Dash Stop");
 		}
 		else {
 			movementTimeInOneDirection = 0;
 		}
 
+		if (h == 0 && anim.GetCurrentAnimatorStateInfo(0).IsName("init Dash") && grounded) {
+			anim.Play("Dash Stop");
+			Debug.Log("Dash Stop");
+		}
+
 		if (turnDelayActive > 0) {
 			turnDelayActive -= Time.deltaTime;
 			h = hLastFrame;
-			print("h: " + h);
 		}
 
 		//Attacken deklaration
-		if (Input.GetButtonDown(attackButton)) {
+		if (Input.GetButtonDown(attackButton) && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			if (shield.activeSelf) {
 				SetAttackType(new Attack_OutOfShieldAttack(), outOfShieldAttackHurtBox);
 			}
@@ -100,12 +109,13 @@ public class PlayerController : MonoBehaviour {
 			}
 			else {
 				SetAttackType(new Attack_Aerial(), aerialHurtBox);
+				Debug.Log("set aerial");
 			}
 			attackType.Attack(rigb, anim, activeHurtBox);
 		}
 			
 		//Enable/Disable Shield on Shield-Button
-		if (Input.GetButtonDown(shieldButton) && GetCanMove()) {
+		if (Input.GetButtonDown(shieldButton) && GetCanMove() && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			if (grounded) {
 				rigb.velocity = new Vector2(0, 0);
 				shield.SetActive(true);
@@ -113,14 +123,14 @@ public class PlayerController : MonoBehaviour {
 				CantMove();
 				//audio
 				PlaySound(3);
-				anim.Play("Block");
+				anim.Play("Shield");
 			}
 		}
-		if (Input.GetButtonUp(shieldButton) && shield.activeSelf) {
+		if (Input.GetButtonUp(shieldButton) && shield.activeSelf && !anim.GetCurrentAnimatorStateInfo(0).IsName("Dead")) {
 			shield.SetActive(false);
 			CantMoveFor(0.15f);
 			attacking = false;
-			anim.Play("Idle");
+			anim.Play("Shield Drop");
 		}
 	}
 
@@ -131,12 +141,12 @@ public class PlayerController : MonoBehaviour {
 		movementType.Move(rigb, anim, h, moveForce, maxSpeed);
 
 		//Manage Face Direction
-		if (h < 0 && rigb.transform.eulerAngles.y != 270 && attacking == false && grounded) {
+		if (h < 0 && rigb.transform.eulerAngles.y != 270 && attacking == false && grounded && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			rigb.transform.eulerAngles = new Vector3(0,270,0);
 			faceDirection = "left";
 
 		}
-		if (h > 0 && rigb.transform.eulerAngles.y != 90 && attacking == false && grounded) {
+		if (h > 0 && rigb.transform.eulerAngles.y != 90 && attacking == false && grounded && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			rigb.transform.eulerAngles = new Vector3(0,90,0);
 			faceDirection = "right";
 		}
@@ -144,6 +154,16 @@ public class PlayerController : MonoBehaviour {
 		//Soll nicht gewollte Rotation von Rigidbody unterbinden
 		if (rigb.transform.eulerAngles.x != 0 || rigb.transform.eulerAngles.z != 0) {
 			rigb.transform.eulerAngles = new Vector3(0, rigb.transform.eulerAngles.y, 0);
+		}
+
+		//If Jump WD Error, delete following if
+		if (!grounded && rigb.velocity.x == 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land") && !anim.GetCurrentAnimatorStateInfo(0).IsName("init Jump") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump WD")) {
+			anim.Play("Jump");
+		}
+
+		//Jump Landing Animation
+		if (!grounded && rigb.velocity.y < 0 && !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump land") && rigb.position.y <= 1) {
+			anim.Play("Jump land");
 		}
 	}
 
@@ -175,14 +195,31 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox")) {
-			if ((other.GetComponent<PlayerController>().shield.activeInHierarchy == true && faceDirection != other.GetComponent<PlayerController>().faceDirection)) {
+			if ((other.GetComponent<PlayerController>().shield.activeInHierarchy == true && faceDirection != other.GetComponent<PlayerController>().faceDirection) && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash")) {
+			}
+			else if (anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack") && other.GetComponent<PlayerController>().grounded) {
+
 			}
 			else {
 				GameObject playerWonText = GameObject.Find("PlayerWonText");
-				other.gameObject.active = false;
+				if (other.GetComponent<PlayerController>().grounded) {
+					other.GetComponent<PlayerController>().Dead(other, 0.0f);
+				}
+				else {
+					other.GetComponent<PlayerController>().Dead(other, 0.5f);
+				}
 				playerWonText.GetComponent<TextMesh>().text = playerName + " wins";
 
 				playerWonText.GetComponent<LevelScripts>().SetRoundsWon(playerName);
+				if (grounded) {
+					Victory(0.0f);
+				}
+				else {
+					Victory(0.8f);
+				}
+
+				CantMove();
+				PlaySound(6);
 				playerWonText.GetComponent<LevelScripts>().RestartLevel();
 				//audio
 				//PlaySound(6);
@@ -228,6 +265,10 @@ public class PlayerController : MonoBehaviour {
 		attacking = false;
 	}
 
+	public bool GetIsAttacking() {
+		return attacking;
+	}
+
 	//public Start for Disable Movement Input for x Seconds
 	public void CantMoveFor(float t) {
 		StartCoroutine(CoCantMoveFor(t));
@@ -251,12 +292,13 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	//public Start for Enable Hurtbox for x Seconds
-	public void HurtBoxTime(GameObject HurtBox, float t) {
-		StartCoroutine(CoHurtBoxTime(HurtBox, t));
+	public void HurtBoxTime(GameObject HurtBox, float time, float delay) {
+		StartCoroutine(CoHurtBoxTime(HurtBox, time, delay));
 	}
 
 	//Coroutine Enable Hurtbox for x Seconds
-	IEnumerator CoHurtBoxTime(GameObject hurtBox, float t) {
+	IEnumerator CoHurtBoxTime(GameObject hurtBox, float t, float d) {
+		yield return new WaitForSeconds(d);
 		hurtBox.SetActive(true);
 		yield return new WaitForSeconds(t);
 		hurtBox.SetActive(false);
@@ -295,6 +337,28 @@ public class PlayerController : MonoBehaviour {
 			rigb.AddForce(new Vector3(x, 0, 0));
 			yield return new WaitForSeconds(0.05f);
 		}
+	}
+
+	public void Victory(float delay) {
+		StartCoroutine(CoVictory(delay));
+	}
+
+	IEnumerator CoVictory(float delay) {
+		CantMove();
+		IsAttacking();
+		yield return new WaitForSeconds(0.2f + delay);
+		anim.Play("Victory");
+	}
+
+	public void Dead(Collider other, float delay) {
+		StartCoroutine(CoDead(other, delay));
+	}
+
+	IEnumerator CoDead(Collider other, float delay) {
+		yield return new WaitForSeconds(0);
+		other.GetComponent<PlayerController>().CantMove();
+		//yield return new WaitForSeconds(delay);
+		other.GetComponent<PlayerController>().anim.Play("Dead");
 	}
 
 	//audio

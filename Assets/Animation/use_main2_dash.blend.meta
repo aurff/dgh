@@ -1,14 +1,6 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: 66c9db4265f5fa843beade5a099ba062
-timeCreated: 1467126954
-licenseType: Free
-ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName: {}
-=======
-guid: 8e3caab117b14094895441269d1ee91c
-timeCreated: 1467137608
+guid: 5742e9428e91c174dacb8040b4c7fc12
+timeCreated: 1467137676
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -148,7 +140,6 @@ ModelImporter:
     9500000: //RootNode
     13700000: Cone_001_MeshPart0
     13700002: Cone_001_MeshPart1
->>>>>>> origin/master
   materials:
     importMaterials: 1
     materialName: 0
@@ -169,15 +160,12 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-<<<<<<< HEAD
-    clipAnimations: []
-=======
     clipAnimations:
     - serializedVersion: 16
       name: Default Take
       takeName: Default Take
       firstFrame: -1
-      lastFrame: 8
+      lastFrame: 12
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -332,8 +320,8 @@ ModelImporter:
     - serializedVersion: 16
       name: ArmatureAction
       takeName: ArmatureAction
-      firstFrame: 0
-      lastFrame: 9
+      firstFrame: -1
+      lastFrame: 13
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -485,7 +473,6 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
->>>>>>> origin/master
     isReadable: 1
   meshes:
     lODScreenPercentages: []
