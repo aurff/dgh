@@ -100,14 +100,14 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Attacken deklaration
-		if (Input.GetButtonDown(attackButton) && GetCanMove() && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
+		if (Input.GetButtonDown(attackButton) && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
 			if (shield.activeSelf) {
 				SetAttackType(new Attack_OutOfShieldAttack(), outOfShieldAttackHurtBox);
 			}
-			else if (grounded && !anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
+			else if (grounded) {
 				SetAttackType(new Attack_Dash(), dashHurtBox);
 			}
-			else if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Victory")) {
+			else {
 				SetAttackType(new Attack_Aerial(), aerialHurtBox);
 				Debug.Log("set aerial");
 			}

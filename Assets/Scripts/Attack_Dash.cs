@@ -4,7 +4,7 @@ using System.Collections;
 public class Attack_Dash : Attack {
 
 	private float attackDashDelay = 0.08f;
-	private float attackDashTime = 0.3f;
+	private float attackDashTime = 0.26f;
 
 	public void Attack(Rigidbody rigb, Animator anim, GameObject hurtBox) {
 		if (rigb.GetComponent<PlayerController>().GetCanMove()) {
