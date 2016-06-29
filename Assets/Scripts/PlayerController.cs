@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Attacken deklaration
-		if (Input.GetButtonDown(attackButton)) {
+		if (Input.GetButtonDown(attackButton) && GetCanMove()) {
 			if (shield.activeSelf) {
 				SetAttackType(new Attack_OutOfShieldAttack(), outOfShieldAttackHurtBox);
 			}
@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox")) {
-			if ((other.GetComponent<PlayerController>().shield.activeInHierarchy == true && faceDirection != other.GetComponent<PlayerController>().faceDirection)) {
+			if ((other.GetComponent<PlayerController>().shield.activeInHierarchy == true && faceDirection != other.GetComponent<PlayerController>().faceDirection) && anim.GetCurrentAnimatorStateInfo(0).IsName("Dash")) {
 			}
 			else if (anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack") && other.GetComponent<PlayerController>().grounded) {
 
