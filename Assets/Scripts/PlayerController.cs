@@ -51,8 +51,8 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		SetMovementType(new Movement_NormalBehaviour());
 		shield.SetActive(false);
-		dashHurtBox.SetActive(false);
-		outOfShieldAttackHurtBox.SetActive(false);
+		//dashHurtBox.SetActive(false);
+		//outOfShieldAttackHurtBox.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -191,6 +191,9 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.layer == LayerMask.NameToLayer("Hitbox")) {
 			if ((other.GetComponent<PlayerController>().shield.activeInHierarchy == true && faceDirection != other.GetComponent<PlayerController>().faceDirection)) {
+			}
+			else if (anim.GetCurrentAnimatorStateInfo(0).IsName("Block Attack") && other.GetComponent<PlayerController>().grounded) {
+
 			}
 			else {
 				GameObject playerWonText = GameObject.Find("PlayerWonText");
@@ -346,8 +349,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	IEnumerator CoDead(Collider other, float delay) {
-		other.GetComponent<PlayerController>().CantMove();
 		yield return new WaitForSeconds(0);
+		other.GetComponent<PlayerController>().CantMove();
 		//yield return new WaitForSeconds(delay);
 		other.GetComponent<PlayerController>().anim.Play("Dead");
 	}
